@@ -4,92 +4,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Create free QR codes online instantly. Convert website links, text and more into downloadable QR codes with QR Mitra.">
-<title>QR Mitra - Free QR Code Generator</title>
+<meta name="description" content="Free QR code generator for websites, WhatsApp, WiFi, text and UPI payments. Create and download QR codes instantly with QR Mitra.">
+<meta name="theme-color" content="#5145cd">
+<title>QR Mitra - Free QR Code Generator Online</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7ff;color:#17213b}
-header{background:#fff;padding:18px 20px;box-shadow:0 2px 12px #0000000c}
-nav{max-width:850px;margin:auto;font-size:23px;font-weight:bold;color:#5546d9}
-nav span{color:#17213b}
-main{max-width:650px;margin:45px auto;padding:20px}
-.hero{text-align:center;margin-bottom:28px}
-.hero h1{font-size:34px;margin:0 0 10px}
-.hero p{color:#68738b;line-height:1.6}
-.card{background:white;padding:25px;border-radius:18px;box-shadow:0 8px 30px #26345b12}
-label{display:block;font-weight:bold;margin:15px 0 8px}
-select,input{width:100%;padding:14px;border:1px solid #dce1ee;border-radius:10px;font-size:16px;background:white}
-button{border:0;border-radius:10px;padding:14px 18px;font-size:16px;font-weight:bold;cursor:pointer}
-.generate{width:100%;background:#5546d9;color:white;margin-top:18px}
+body{margin:0;background:#f5f6ff;color:#18213b;font-family:Arial,sans-serif}
+header{background:white;padding:17px 20px;box-shadow:0 2px 12px #0001}
+nav{max-width:850px;margin:auto;font-size:25px;font-weight:800;color:#5546d9}
+nav span{color:#18213b}
+.hero{text-align:center;padding:38px 16px 25px}
+.hero h1{font-size:32px;margin:0 0 12px}
+.hero p{color:#69738b;line-height:1.6;margin:0}
+main{max-width:620px;margin:auto;padding:0 16px 35px}
+.card{background:white;padding:23px;border-radius:18px;box-shadow:0 8px 30px #26345b12}
+label{display:block;font-weight:bold;margin:16px 0 8px}
+select,input{width:100%;padding:14px;border:1px solid #dce1ee;border-radius:10px;font-size:16px;background:white;color:#18213b}
+input:focus,select:focus{outline:2px solid #aaa0ff}
+.generate{width:100%;padding:15px;background:#5546d9;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold;margin-top:22px}
 #result{text-align:center;margin-top:25px}
-#qrcode{display:inline-block;padding:12px;background:white;border:1px solid #eee;border-radius:12px;min-height:0}
+#qrcode{display:inline-block;padding:12px;background:white;border:1px solid #eee;border-radius:12px}
 #qrcode img,#qrcode canvas{max-width:100%;height:auto}
-.download{background:#16865b;color:white;margin-top:16px;display:none}
-.note{font-size:13px;color:#778198;text-align:center;margin-top:20px}
-footer{text-align:center;color:#778198;font-size:13px;padding:25px}
+#download{display:none;background:#13885d;color:white;margin-top:16px}
+button{cursor:pointer}
+.hidden{display:none}
+.help{font-size:12px;color:#778198;margin-top:6px;line-height:1.5}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.feature{background:white;border-radius:12px;padding:16px;text-align:center;font-size:14px;font-weight:bold}
+.feature span{display:block;font-size:24px;margin-bottom:7px}
+footer{text-align:center;padding:25px;color:#778198;font-size:13px}
 </style>
 </head>
 <body>
 <header><nav>QR <span>Mitra</span> ✦</nav></header>
-<main>
+
 <section class="hero">
 <h1>Free QR Code Generator</h1>
-<p>Create your QR code instantly. Simple, fast and free. No sign-up required!</p>
+<p>Create QR codes for websites, WhatsApp, WiFi and UPI.<br>Fast, simple and free!</p>
 </section>
+
+<main>
 <div class="card">
+
 <label for="type">Choose QR Code Type</label>
-<select id="type">
-<option value="url">Website URL</option>
-<option value="text">Plain Text</option>
+<select id="type" onchange="showFields()">
+<option value="url">🌐 Website URL</option>
+<option value="text">📝 Plain Text</option>
+<option value="whatsapp">💬 WhatsApp QR</option>
+<option value="wifi">📶 WiFi QR</option>
+<option value="upi">💳 UPI Payment QR</option>
 </select>
-<label for="content">Enter your link or text</label>
-<input id="content" type="text" placeholder="https://example.com">
+
+<div id="urlFields">
+<label for="url">Website URL</label>
+<input id="url" placeholder="https://example.com">
+</div>
+
+<div id="textFields" class="hidden">
+<label for="text">Enter Your Text</label>
+<input id="text" placeholder="Write your message here">
+</div>
+
+<div id="whatsappFields" class="hidden">
+<label for="phone">WhatsApp Number</label>
+<input id="phone" type="tel" placeholder="919876543210">
+<p class="help">Enter country code + mobile number without the + sign.</p>
+<label for="message">Optional Message</label>
+<input id="message" placeholder="Hello!">
+</div>
+
+<div id="wifiFields" class="hidden">
+<label for="ssid">WiFi Network Name</label>
+<input id="ssid" placeholder="My WiFi">
+<label for="password">WiFi Password</label>
+<input id="password" type="text" placeholder="WiFi password">
+<label for="security">Security Type</label>
+<select id="security">
+<option value="WPA">WPA/WPA2</option>
+<option value="WEP">WEP</option>
+<option value="nopass">No Password</option>
+</select>
+</div>
+
+<div id="upiFields" class="hidden">
+<label for="upiid">UPI ID</label>
+<input id="upiid" placeholder="yourname@bank">
+<label for="payee">Payee Name</label>
+<input id="payee" placeholder="Your Name">
+<label for="amount">Amount (₹) - Optional</label>
+<input id="amount" type="number" min="0" step="0.01" placeholder="100">
+<p class="help">This creates a UPI payment link. Always verify the details in your payment app before paying.</p>
+</div>
+
 <button class="generate" onclick="generateQR()">Generate QR Code</button>
+
 <div id="result">
 <div id="qrcode"></div>
 <br>
-<button id="download" class="download" onclick="downloadQR()">⬇ Download PNG</button>
+<button id="download" onclick="downloadQR()">⬇ Download QR PNG</button>
 </div>
-<p class="note">Your QR code is generated in your browser. Your text is not uploaded to our server.</p>
+
+<p class="help" style="text-align:center;margin-top:20px">
+Your QR content is processed in your browser. No account required.
+</p>
+</div>
+
+<div class="features">
+<div class="feature"><span>🌐</span>Website QR</div>
+<div class="feature"><span>💬</span>WhatsApp QR</div>
+<div class="feature"><span>📶</span>WiFi QR</div>
+<div class="feature"><span>💳</span>UPI QR</div>
 </div>
 </main>
-<footer>© 2026 QR Mitra | Free QR Code Tools</footer>
+
+<footer>© 2026 QR Mitra | Free QR Code Generator</footer>
+
 <script>
-let qr;
-function generateQR(){
+let qrData = "";
+
+function showFields(){
  const type=document.getElementById('type').value;
- let value=document.getElementById('content').value.trim();
- if(!value){alert('Please enter a link or text first.');return;}
- if(type==='url' && !/^https?:\/\//i.test(value)){
-   value='https://'+value;
+ ['url','text','whatsapp','wifi','upi'].forEach(id=>{
+  document.getElementById(id+'Fields').classList.toggle('hidden',id!==type);
+ });
+ document.getElementById('qrcode').innerHTML='';
+ document.getElementById('download').style.display='none';
+}
+
+function getQRData(){
+ const type=document.getElementById('type').value;
+
+ if(type==='url'){
+  let v=document.getElementById('url').value.trim();
+  if(!v)throw 'Please enter a website URL.';
+  if(!/^https?:\/\//i.test(v))v='https://'+v;
+  try{new URL(v)}catch(e){throw 'Please enter a valid URL.'}
+  return v;
  }
- const box=document.getElementById('qrcode');
- box.innerHTML='';
- qr=new QRCode(box,{
-   text:value,
-   width:220,
-   height:220,
+
+ if(type==='text'){
+  let v=document.getElementById('text').value.trim();
+  if(!v)throw 'Please enter some text.';
+  return v;
+ }
+
+ if(type==='whatsapp'){
+  let phone=document.getElementById('phone').value.replace(/\D/g,'');
+  let msg=document.getElementById('message').value.trim();
+  if(phone.length<8||phone.length>15)throw 'Please enter a valid number with country code.';
+  return 'https://wa.me/'+phone+(msg?'?text='+encodeURIComponent(msg):'');
+ }
+
+ if(type==='wifi'){
+  let ssid=document.getElementById('ssid').value.trim();
+  let pass=document.getElementById('password').value;
+  let sec=document.getElementById('security').value;
+  if(!ssid)throw 'Please enter WiFi network name.';
+  if(sec!=='nopass'&&!pass)throw 'Please enter WiFi password.';
+  const escapeWifi=s=>s.replace(/([\\;,:"])/g,'\\$1');
+  return 'WIFI:T:'+sec+';S:'+escapeWifi(ssid)+';P:'+(sec==='nopass'?'':escapeWifi(pass))+';;';
+ }
+
+ if(type==='upi'){
+  let id=document.getElementById('upiid').value.trim();
+  let name=document.getElementById('payee').value.trim();
+  let amount=document.getElementById('amount').value.trim();
+  if(!/^[^@\s]+@[^@\s]+$/.test(id))throw 'Please enter a valid UPI ID.';
+  if(!name)throw 'Please enter payee name.';
+  if(amount&&(!Number.isFinite(Number(amount))||Number(amount)<=0))throw 'Please enter a valid amount.';
+  return 'upi://pay?pa='+encodeURIComponent(id)+'&pn='+encodeURIComponent(name)+(amount?'&am='+encodeURIComponent(amount)+'&cu=INR':'&cu=INR');
+ }
+}
+
+function generateQR(){
+ try{
+  if(typeof QRCode==='undefined')throw 'QR library could not load. Check your internet connection and try again.';
+  qrData=getQRData();
+  const box=document.getElementById('qrcode');
+  box.innerHTML='';
+  new QRCode(box,{
+   text:qrData,
+   width:240,
+   height:240,
    colorDark:'#17213b',
    colorLight:'#ffffff',
    correctLevel:QRCode.CorrectLevel.H
- });
- document.getElementById('download').style.display='inline-block';
+  });
+  document.getElementById('download').style.display='inline-block';
+ }catch(e){
+  alert(typeof e==='string'?e:'Something went wrong.');
+ }
 }
+
 function downloadQR(){
  const box=document.getElementById('qrcode');
  const canvas=box.querySelector('canvas');
  const img=box.querySelector('img');
- let url=canvas?canvas.toDataURL('image/png'):img.src;
+ let link;
+ if(canvas)link=canvas.toDataURL('image/png');
+ else if(img&&img.src)link=img.src;
+ else{alert('Please generate a QR code first.');return;}
  const a=document.createElement('a');
- a.href=url;
+ a.href=link;
  a.download='qr-mitra.png';
+ document.body.appendChild(a);
  a.click();
+ a.remove();
 }
-document.getElementById('type').addEventListener('change',function(){
- document.getElementById('content').placeholder=
- this.value==='url'?'https://example.com':'Enter your text here';
-});
 </script>
 </body>
 </html>
