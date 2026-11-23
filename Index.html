@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Create free QR codes online instantly. Convert website links, text and more into downloadable QR codes with QR Mitra.">
+<title>QR Mitra - Free QR Code Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7ff;color:#17213b}
+header{background:#fff;padding:18px 20px;box-shadow:0 2px 12px #0000000c}
+nav{max-width:850px;margin:auto;font-size:23px;font-weight:bold;color:#5546d9}
+nav span{color:#17213b}
+main{max-width:650px;margin:45px auto;padding:20px}
+.hero{text-align:center;margin-bottom:28px}
+.hero h1{font-size:34px;margin:0 0 10px}
+.hero p{color:#68738b;line-height:1.6}
+.card{background:white;padding:25px;border-radius:18px;box-shadow:0 8px 30px #26345b12}
+label{display:block;font-weight:bold;margin:15px 0 8px}
+select,input{width:100%;padding:14px;border:1px solid #dce1ee;border-radius:10px;font-size:16px;background:white}
+button{border:0;border-radius:10px;padding:14px 18px;font-size:16px;font-weight:bold;cursor:pointer}
+.generate{width:100%;background:#5546d9;color:white;margin-top:18px}
+#result{text-align:center;margin-top:25px}
+#qrcode{display:inline-block;padding:12px;background:white;border:1px solid #eee;border-radius:12px;min-height:0}
+#qrcode img,#qrcode canvas{max-width:100%;height:auto}
+.download{background:#16865b;color:white;margin-top:16px;display:none}
+.note{font-size:13px;color:#778198;text-align:center;margin-top:20px}
+footer{text-align:center;color:#778198;font-size:13px;padding:25px}
+</style>
+</head>
+<body>
+<header><nav>QR <span>Mitra</span> ✦</nav></header>
+<main>
+<section class="hero">
+<h1>Free QR Code Generator</h1>
+<p>Create your QR code instantly. Simple, fast and free. No sign-up required!</p>
+</section>
+<div class="card">
+<label for="type">Choose QR Code Type</label>
+<select id="type">
+<option value="url">Website URL</option>
+<option value="text">Plain Text</option>
+</select>
+<label for="content">Enter your link or text</label>
+<input id="content" type="text" placeholder="https://example.com">
+<button class="generate" onclick="generateQR()">Generate QR Code</button>
+<div id="result">
+<div id="qrcode"></div>
+<br>
+<button id="download" class="download" onclick="downloadQR()">⬇ Download PNG</button>
+</div>
+<p class="note">Your QR code is generated in your browser. Your text is not uploaded to our server.</p>
+</div>
+</main>
+<footer>© 2026 QR Mitra | Free QR Code Tools</footer>
+<script>
+let qr;
+function generateQR(){
+ const type=document.getElementById('type').value;
+ let value=document.getElementById('content').value.trim();
+ if(!value){alert('Please enter a link or text first.');return;}
+ if(type==='url' && !/^https?:\/\//i.test(value)){
+   value='https://'+value;
+ }
+ const box=document.getElementById('qrcode');
+ box.innerHTML='';
+ qr=new QRCode(box,{
+   text:value,
+   width:220,
+   height:220,
+   colorDark:'#17213b',
+   colorLight:'#ffffff',
+   correctLevel:QRCode.CorrectLevel.H
+ });
+ document.getElementById('download').style.display='inline-block';
+}
+function downloadQR(){
+ const box=document.getElementById('qrcode');
+ const canvas=box.querySelector('canvas');
+ const img=box.querySelector('img');
+ let url=canvas?canvas.toDataURL('image/png'):img.src;
+ const a=document.createElement('a');
+ a.href=url;
+ a.download='qr-mitra.png';
+ a.click();
+}
+document.getElementById('type').addEventListener('change',function(){
+ document.getElementById('content').placeholder=
+ this.value==='url'?'https://example.com':'Enter your text here';
+});
+</script>
+</body>
+</html>
